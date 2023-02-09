@@ -34,8 +34,12 @@ Each .mat file includes a struct *ex* with the following information:
   - **e2**: (Optional) Second experiment, same format as *e1*
 - **Trials**: Includes information about trials (see below)
 - **setup.refreshRate**: Refresh rate of the stimulus monitor
+- **setup.monitorWidth**: Stimulus motor width
+- **setup.viewingDistance**: Distance between monitor and the subject
+- **setup.screenRect**: Rectangular properties of the viewing screen
 - **Header.VisStimVersion**: (Optional) Some sessions used stimulus presentation version
   that requires manual adjustment for times
+- **eyeCal**: Calibration properties for eye capture
 
 *ex.Trials* contains the following information:
 - **st**: Boolean value if stimulus was presented during trial
@@ -44,9 +48,12 @@ Each .mat file includes a struct *ex* with the following information:
 - **co**: Contrast used for grating stimulus for the trial
 - **TrialEnd**: End time of trial (in sec)
 - **TrialStart**: Start time of trial (in sec), i.e. animal starts fixating
+- **TrialStartDatapixx**: The start time for the eye recording software
+- **TrialStart_remappedGetSecs**: The relative time difference between Start times of the eye recording system and the main system
 - **Start**: Start time of every stimulus video frame [there is typically a small, variable delay between TrialStart (fixation onset) and the first stimulus frame presented]
 - **Reward**: Specifies whether the subject response was correct (1) or the trials was discarded (0) [Only trials that are 1 are valid trials]
 - **RewardSize**: Size of the reward delivered
+- **Eye**: Eye position recordings (in voltages)
 - **Spikes**: Spike times (relative to TrialStart), in sec
 - **LFP**: Measured LFP voltage for the trial
 - **LFP_ts**: Time points corresponding to LFP voltages
@@ -120,6 +127,10 @@ This will additionally require [Docker](https://docs.docker.com/get-docker/) to 
 
 After running *run_c2s.sh*, run *extract_c2s.m* (located in **/analysis_code/**),
 which will condense the individual data files into a singular matrix for analysis (*met_cv10.mat*).
+
+### Microsaccade Analysis
+The file *batchMSLFP_share.m* (located in **/analysis_code/**) is used to analyze microsaccades
+(amplitude and frequency) in the data sessions. This data is used for Figure 1.
 
 ### Plotting
 Each of the paper's figures are correspondingly generated from the files included
