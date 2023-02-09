@@ -90,3 +90,69 @@ figHandles = findobj('Type', 'figure');
 
 % Save the figure
 savefig(figHandles(1), [save_path '/gain_change.fig']);
+
+%% Plot the microsaccade comparisons - Figure 1 D & E
+
+% Load the data file
+load([data_path, '/microsaccades/summary_microsaccades.mat'])
+
+% plotting the microsaccade comparisons
+cols = [1 0 0; 0 0 0];
+mrcs = {'s', 'o'};
+msz = {15, 8};
+a = cell(2,2);
+
+
+% data groups
+a{1,1} = [res.uniqueSession]==true & [res.serotonin]==true & [res.animal]==true;
+a{1,2} = [res.uniqueSession]==true & [res.serotonin]==true & [res.animal]==false; % ma
+a{2,1} = [res.uniqueSession]==true & [res.serotonin]==false & [res.animal]==true;
+a{2,2} = [res.uniqueSession]==true & [res.serotonin]==false & [res.animal]==false; % ma
+
+figure;
+set(findall(gcf,'-property','FontName'),'FontName','Arial')
+set(findall(gcf,'-property','fontsize'),'fontsize',6)
+subplot('position',[.1 .2 .3 .3])
+for n=1:2 % drug
+    for n2 = 1:2 % animal
+        
+        scatter(gca,[res(a{n,n2}).msAmp_control],[res(a{n,n2}).msAmp_drug], ...
+            msz{n2},'marker',mrcs{n2},'markerfacecolor',cols(n,:),...
+            'markeredgecolor',cols(n,:),'markerfacealpha', 0.4, 'linewidth', 0.05);
+        hold on;
+    end
+end
+
+axis square
+offsetAxes
+set(gca,'box','off','tickdir','out','xlim',[.15 .55],'ylim',[.15 .55],'xtick',[.2:.1: .5],'ytick',[.2:.1:.5])
+range = [.2 .55];
+plot(range,range,'-','color',[.5 .5 .5])
+
+title('microsaccade amplitude\newline               (dva)')
+xlabel baseline
+ylabel drug
+
+% Microsaccade frequencies plot
+
+subplot('position',[.45 .2 .3 .3])
+for n=1:2 % drug
+    for n2 = 1:2 % animal
+        
+        scatter(gca,[res(a{n,n2}).msFreq_control],[res(a{n,n2}).msFreq_drug], ...
+            msz{n2},'marker',mrcs{n2},'markerfacecolor',cols(n,:),...
+            'markeredgecolor',cols(n,:),'markerfacealpha', 0.4, 'linewidth', 0.05);
+        hold on;
+    end
+end
+
+axis square
+set(gca,'box','off','tickdir','out','xtick',[0, 1:2],'ytick',[0, 1 :2],'xlim',[-0.2 2.8],'ylim',[-0.2 2.8])
+offsetAxes
+range = [0 2.8];
+plot(range,range,'-','color',[.5 .5 .5])
+set(gca,'xticklabel',[{''},{'1'},{'2'}],'yticklabel',[{''},{'1'},{'2'}])
+title('microsaccade frequency\newline                (Hz)')
+xlabel('baseline')
+
+savefig(gcf, [save_path '/micro_sac.fig'])
