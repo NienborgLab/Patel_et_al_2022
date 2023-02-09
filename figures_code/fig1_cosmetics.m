@@ -1,7 +1,6 @@
-% Converts the Figure 1 subplots into the paper figure.
-
 close all
 
+%%
 % Get the 'relative' folder path to get the resource folderpath
 path = mfilename( 'fullpath' );
 
@@ -350,6 +349,129 @@ a2_center.XMinorTick = 'off';
 
 % Remove the opened figure
 delete(fig);
+
+%%
+% third row, first column
+%
+% ==========================================================
+ax_new = axes(axPars, 'position', [xbegin ybegin+(2 * figspace_y) sq sq]);
+% open figures
+fig = openfig([figpath '/subplots/micro_sac.fig'], 'invisible');
+
+% generate axis object
+axesObjs = get(fig, 'Children'); 
+
+% extract data
+data{1} = {[axesObjs(2).Children(2).XData; axesObjs(2).Children(2).YData], ...
+    [axesObjs(2).Children(4).XData; axesObjs(2).Children(4).YData]};
+data{2} = {[axesObjs(2).Children(3).XData; axesObjs(2).Children(3).YData], ...
+    [axesObjs(2).Children(5).XData; axesObjs(2).Children(5).YData]}; 
+
+% delete fig
+delete(fig);
+
+% plot
+for a = 1:2 % animal
+    for d = 1:2 % drug
+        s = scatter(ax_new, data{a}{d}(1, :), data{a}{d}(2, :), msz{a}, 'marker', mrcs{a}, ...
+            'markerfacecolor', cols(d, :), 'markeredgecolor', cols(d, :), 'markerfacealpha', 0.4, ...
+            'markeredgealpha', 0.4, 'linewidth', 0.05);
+        hold on;
+    end
+end
+range = [0.2 0.55];
+hold on;
+plot(range, range, '-', 'color', 0.5*[1 1 1], 'linewidth', 0.25)
+
+% format
+xlim(range)
+ylim(range)
+set(gca, 'XTick', range)
+set(gca, 'YTick', range)
+xlabel('baseline', 'fontsize', 6)
+ylabel('drug', 'fontsize', 6)
+text(range(1)+0.01*(range(2)-range(1)), range(2) - 0.05*(range(2)-range(1)), ...
+    ['n = ' num2str(size(data{1}{2}, 2) + size(data{2}{2}, 2))], 'color', cols(2, :), 'fontsize', 6)
+text(range(1)+0.01*(range(2)-range(1)), range(2) - 0.15*(range(2)-range(1)), ...
+    ['n = ' num2str(size(data{1}{1}, 2) + size(data{2}{1}, 2))], 'color', cols(1, :), 'fontsize', 6)
+title({'microsaccade amplitude', '(dva)'}, 'fontsize', 6)
+
+current_ax = gca; % Obtain figure handle
+
+% Change all text font to meet specifications
+current_ax.Children(1).FontName = "Arial";
+current_ax.Children(2).FontName = "Arial";
+current_ax.Title.FontName = "Arial";
+current_ax.FontName = "Arial";
+current_ax.XLabel.FontName = "Arial";
+current_ax.YLabel.FontName = "Arial";
+
+% offset axis
+offset_axis(0.05, axPars)
+
+%%
+% third row, second column
+%
+% ==========================================================
+ax_new = axes(axPars, 'position', [xbegin+figspace_x ybegin+(2 * figspace_y) sq sq]);
+% open figures
+fig = openfig([figpath '/subplots/micro_sac.fig'], 'invisible');
+
+% generate axis object
+axesObjs = get(fig, 'Children'); 
+
+% extract data
+data{1} = {[axesObjs(1).Children(2).XData; axesObjs(1).Children(2).YData], ...
+    [axesObjs(1).Children(4).XData; axesObjs(1).Children(4).YData]};
+data{2} = {[axesObjs(1).Children(3).XData; axesObjs(1).Children(3).YData], ...
+    [axesObjs(1).Children(5).XData; axesObjs(1).Children(5).YData]}; 
+
+% delete fig
+delete(fig);
+
+% plot
+for a = 1:2 % animal
+    for d = 1:2 % drug
+        s = scatter(ax_new, data{a}{d}(1, :), data{a}{d}(2, :), msz{a}, 'marker', mrcs{a}, ...
+            'markerfacecolor', cols(d, :), 'markeredgecolor', cols(d, :), 'markerfacealpha', 0.4, ...
+            'markeredgealpha', 0.4, 'linewidth', 0.05);
+        hold on;
+    end
+end
+range = [0 3];
+hold on;
+plot(range, range, '-', 'color', 0.5*[1 1 1], 'linewidth', 0.25)
+
+% format
+xlim(range)
+ylim(range)
+set(gca, 'XTick', range)
+set(gca, 'YTick', range)
+xlabel('baseline', 'fontsize', 6)
+ylabel('drug', 'fontsize', 6)
+
+text(range(1)+0.01*(range(2)-range(1)), range(2) - 0.05*(range(2)-range(1)), ...
+    ['n = ' num2str(size(data{1}{2}, 2) + size(data{2}{2}, 2))], 'color', cols(2, :), 'fontsize', 6)
+text(range(1)+0.01*(range(2)-range(1)), range(2) - 0.15*(range(2)-range(1)), ...
+    ['n = ' num2str(size(data{1}{1}, 2) + size(data{2}{1}, 2))], 'color', cols(1, :), 'fontsize', 6)
+title({'microsaccade frequency', '(s^{-1})'}, 'fontsize', 6)
+
+current_ax = gca; % Obtain figure handle
+
+% Change all text font to meet specifications
+current_ax.Children(1).FontName = "Arial";
+current_ax.Children(2).FontName = "Arial";
+current_ax.Title.FontName = "Arial";
+current_ax.FontName = "Arial";
+current_ax.XLabel.FontName = "Arial";
+current_ax.YLabel.FontName = "Arial";
+%set(gca, 'YScale', 'log')
+%set(gca, 'XScale', 'log')
+
+% offset axis
+offset_axis(0.05, axPars)
+%set(gca, 'YScale', 'log')
+%set(gca, 'XScale', 'log')
 
 %% Save the figure as .fig and .pdf versions
 
