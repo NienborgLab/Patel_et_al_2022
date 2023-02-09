@@ -1,5 +1,5 @@
 # serotonin_LFP
-Custom analysis code for Patel et al. Serotonergic modulation of local network processing in V1 shares signatures with the modulation by spatial attention, 2022
+Custom analysis code for Patel et al. Serotonergic modulation of local network processing in V1 shares signatures with the modulation by spatial attention, 2023
 
 # Contents
 ## Data
